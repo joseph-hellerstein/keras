@@ -1,4 +1,7 @@
 numpy
+fastai
+fastbook
+graphviz
 jupyterlab
 matplotlib
 nose2
