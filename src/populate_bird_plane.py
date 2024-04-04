@@ -62,11 +62,8 @@ def convertFiles(directory, size=(256, 256)):
         image.to_thumb(256, 256)
         new_path = filename + ".png"
         image.save(new_path)
-
-pilImage1 = pilImage.rotate(-90, expand=1)
-pilImage1.to_thumb(256, 256)
-#new_image = pilImage.resize((256, 256))
-#new_image.save("image.png")
+    pilImage1 = image.rotate(-90, expand=1)
+    pilImage1.to_thumb(256, 256)
 
 if __name__ == "__main__":
     num_bird = populate("bird", max_result=MAX_RESULT)
