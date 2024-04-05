@@ -7,7 +7,7 @@ import unittest
 from typing import List
 
 
-IGNORE_TEST = True
+IGNORE_TEST = False
 IS_PLOT = False
 TEST_ROOT_DIR = os.path.join(cn.TEST_DIR, "select")
 FROM_NAME = "from"
@@ -63,8 +63,8 @@ class TestFunctions(unittest.TestCase):
         self.assertTrue(len(ffiles) == NUM_FILE)
 
     def testMakeDirs(self):
-        #if IGNORE_TEST:
-        #    return
+        if IGNORE_TEST:
+            return
         TOT_FILE = 4
         SUB_DIR3 = "3"
         SUB_DIR7 = "7"
@@ -79,10 +79,16 @@ class TestFunctions(unittest.TestCase):
         testing_dir = self.makeFromDir([FROM_NAME, cn.TESTING], sub_dirs=[SUB_DIR3, SUB_DIR7], num_file=TOT_FILE)
         training_dir = self.makeFromDir([FROM_NAME, cn.TRAINING], sub_dirs=[SUB_DIR3, SUB_DIR7], num_file=TOT_FILE)
         root_to_dir = os.path.join(TEST_ROOT_DIR, TO_NAME)
-        util.makeDigitDirs(TRAIN_COUNT, TEST_COUNT, sub_dirs=[SUB_DIR3, SUB_DIR7], root_from_dir=root_from_dir,
+        util.makeDigitDirs(train_count=TRAIN_COUNT, test_count=TEST_COUNT, sub_dirs=[SUB_DIR3, SUB_DIR7], root_from_dir=root_from_dir,
                     root_to_dir=root_to_dir)
         test(testing_dir)
         test(training_dir)
+
+    def testMakeDirs2(self):
+        if IGNORE_TEST:
+            return
+        pass
+        #util.makeDigitDirs(train_count=20, sub_dirs=["0", "1"])
         
         
 if __name__ == '__main__':
