@@ -1,4 +1,4 @@
-'''Selects a random subset of files from a directoyr.'''
+'''Utilities used in support of learning'''
 
 import os
 import numpy as np
@@ -38,7 +38,7 @@ def copyFiles(from_dir:str, to_dir:str, num_files:int):
         new_file_path = os.path.join(to_dir, ffile)
         os.system("cp %s %s" % (file_path, new_file_path))
 
-def makeDirs(train_count: int, test_count: int, root_from_dir:str=cn.DATA_FROM_DIR, 
+def makeDigitDirs(train_count: int, test_count: int, root_from_dir:str=cn.DATA_FROM_DIR, 
              root_to_dir:str=cn.DATA_TO_DIR, sub_dirs:List[str]=["0"]):
     """
     Creates training and test directories of the specified sizes
@@ -59,12 +59,10 @@ def makeDirs(train_count: int, test_count: int, root_from_dir:str=cn.DATA_FROM_D
     #
     count_dct = {TRAINING: train_count, TESTING: test_count}
     for upper_dir in [TESTING, TRAINING]:
-        path = os.path.join(root_from_dir, upper_dir)
         for sub_dir in sub_dirs:
             from_dir = os.path.join(root_from_dir, upper_dir, str(sub_dir))
             to_dir = os.path.join(root_to_dir, upper_dir, str(sub_dir))
             os.makedirs(to_dir)
-            import pdb; pdb.set_trace()
             copyFiles(from_dir, to_dir, count_dct[upper_dir])
 
 if __name__ == "__main__":
@@ -77,4 +75,4 @@ if __name__ == "__main__":
     parser.add_argument('directories', metavar='N', type=int, nargs='*',
                     help='directories to copy files to')
     args = parser.parse_args()
-    makeDirs(args.from_dir, args.to_dir, args.count)
+    makeDigitDirs(args.from_dir, args.to_dir, args.count)

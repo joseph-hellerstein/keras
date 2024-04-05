@@ -1,5 +1,5 @@
 import src.constants as cn
-from select_random_files import copyFiles, makeDirs  # type: ignore
+import util  # type: ignore
 
 import os
 import shutil
@@ -58,7 +58,7 @@ class TestFunctions(unittest.TestCase):
         self.makeFromDir([FROM_NAME], sub_dirs=[SUB_DIR], num_file=TOT_FILE)
         from_dir = self.makePath([FROM_NAME, SUB_DIR])
         to_dir = self.makePath([TO_NAME, SUB_DIR])
-        copyFiles(from_dir, to_dir, NUM_FILE)
+        util.copyFiles(from_dir, to_dir, NUM_FILE)
         ffiles = os.listdir(to_dir)
         self.assertTrue(len(ffiles) == NUM_FILE)
 
@@ -70,14 +70,20 @@ class TestFunctions(unittest.TestCase):
         SUB_DIR7 = "7"
         TRAIN_COUNT = 5
         TEST_COUNT = 2
+        def test(directory):
+            dirs = os.listdir(directory)
+            diff = set(dirs).symmetric_difference([SUB_DIR3, SUB_DIR7])
+            self.assertEqual(len(diff), 0)
+        #
         root_from_dir = os.path.join(TEST_ROOT_DIR, FROM_NAME)
-        self.makeFromDir([FROM_NAME, cn.TESTING], sub_dirs=[SUB_DIR3, SUB_DIR7], num_file=TOT_FILE)
+        testing_dir = self.makeFromDir([FROM_NAME, cn.TESTING], sub_dirs=[SUB_DIR3, SUB_DIR7], num_file=TOT_FILE)
+        training_dir = self.makeFromDir([FROM_NAME, cn.TRAINING], sub_dirs=[SUB_DIR3, SUB_DIR7], num_file=TOT_FILE)
         root_to_dir = os.path.join(TEST_ROOT_DIR, TO_NAME)
-        makeDirs(TRAIN_COUNT, TEST_COUNT, sub_dirs=[SUB_DIR3, SUB_DIR7], root_from_dir=root_from_dir,
+        util.makeDigitDirs(TRAIN_COUNT, TEST_COUNT, sub_dirs=[SUB_DIR3, SUB_DIR7], root_from_dir=root_from_dir,
                     root_to_dir=root_to_dir)
+        test(testing_dir)
+        test(training_dir)
         
         
-        
-
 if __name__ == '__main__':
     unittest.main()
