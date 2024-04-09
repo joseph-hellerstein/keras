@@ -4,6 +4,7 @@ fastai
 fastbook
 graphviz
 jupyterlab
+jupyter_contrib_nbextensions
 keras
 matplotlib
 mypy
@@ -12,6 +13,7 @@ nose2
 pandas
 Pillow
 pip
+RISE
 seaborn
 tensorflow
 tensorflow-metal
