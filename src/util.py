@@ -13,7 +13,7 @@ TESTING = "testing"
 TRAINING = "training"
 
 
-def copyFiles(from_dir:str, to_dir:str, num_files:int):
+def copyFiles(from_dir:str, to_dir:str, num_files:int, is_symlink:bool=True):
     """
     Selects a random subset of models in a directory and copies them to another directory.
 
@@ -21,6 +21,7 @@ def copyFiles(from_dir:str, to_dir:str, num_files:int):
         from_dir: The directory to select files from.
         to_dir: The directory to copy files to.
         num_files: The number of files to copy. if < 0, all files are copied.
+        is_symlink: If True, creates a symbolic link to the file.
     """
     if not os.path.exists(from_dir):
         raise ValueError("Directory %s does not exist." % from_dir)
@@ -37,7 +38,10 @@ def copyFiles(from_dir:str, to_dir:str, num_files:int):
     for ffile in sel_ffiles:
         file_path = os.path.join(from_dir, ffile)
         new_file_path = os.path.join(to_dir, ffile)
-        shutil.copy(file_path, new_file_path)
+        if is_symlink:
+            os.symlink(file_path, new_file_path)
+        else:
+            shutil.copy(file_path, new_file_path)
 
 def makeDigitDirs(train_count:Optional[int]=100, test_count:Optional[int]=None, root_from_dir:str=cn.DATA_MNIST_FULL, 
              root_to_dir:str=cn.DATA_MNIST_SMALL, sub_dirs:List[str]=["0"]):
@@ -71,7 +75,7 @@ def makeDigitDirs(train_count:Optional[int]=100, test_count:Optional[int]=None, 
             if os.path.exists(to_dir):
                 shutil.rmtree(to_dir)
             os.makedirs(to_dir)
-            copyFiles(from_dir, to_dir, count_dct[phase_name])
+            copyFiles(from_dir, to_dir, count_dct[phase_name])  # type: ignore
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
