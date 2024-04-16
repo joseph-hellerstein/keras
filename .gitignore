@@ -3,7 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 ker/
-
+.DS_Store
+notebooks/archive/
+*.swp
+mnist_*
+*$*
 # C extensions
 *.so
 
